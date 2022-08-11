@@ -14,26 +14,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final ServiceAuth serviceAuth = ServiceAuth();
   TextEditingController textEditingController = TextEditingController();
 
   @override
-  void initState() {final ServiceAuth serviceAuth = ServiceAuth();
-    serviceAuth.verifySupport();
+  void initState() {
+    serviceAuth.autheticate(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final ServiceAuth serviceAuth = ServiceAuth();
     return Scaffold(
         body: Center(
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       ElevatedButton(
           onPressed: () async {
-            bool isAuthenticated = await serviceAuth.verifySupport();
-            if(isAuthenticated) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const SecurityPage()));
-            }
+            await serviceAuth.autheticate(context);
           },
           child: const Text("Biometric"))
     ])));
