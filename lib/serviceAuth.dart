@@ -22,20 +22,28 @@ class ServiceAuth {
   }
 
   autheticate(context) async {
-    // await getListAuthenticateType();
     await verifySupport(context);
   }
 
   verifySupport(context) async {
-    // bool isBiometricSupported = await auth.isDeviceSupported();
-    // bool canCheckBiometrics = await auth.canCheckBiometrics;
-    // if (isBiometricSupported && canCheckBiometrics)
-    await localAuthenticate(context);
+    bool isBiometricSupported = await auth.isDeviceSupported();
+    bool canCheckBiometrics = await auth.canCheckBiometrics;
+    if (isBiometricSupported && canCheckBiometrics) await localAuthenticate(context);
   }
 
-  Future<List<BiometricType>> getListAuthenticateType() async {
-    List<BiometricType> listAuthenticateType = await auth.getAvailableBiometrics();
-    return listAuthenticateType;
+  Future<List<BiometricType>> initBiometrics() async {
+    List<BiometricType> _availableBiometrics = <BiometricType>[];
+    try {
+      if (await auth.canCheckBiometrics) {
+        _availableBiometrics = await auth.getAvailableBiometrics();
+      }
+      return _availableBiometrics;
+    } catch (e) {
+      if(e == auth_error.biometricOnlyNotSupported){
+        print("sem biometria");
+      }
+      return [];
+    }
   }
 
   localAuthenticate(context) async {
@@ -75,5 +83,5 @@ class ServiceAuth {
       lockOut: 'Please reenable your Touch ID');
 
   static const authenticationOptions =
-      AuthenticationOptions(biometricOnly: false, useErrorDialogs: true, sensitiveTransaction: true, stickyAuth: true);
+      AuthenticationOptions(biometricOnly: false, useErrorDialogs: true, sensitiveTransaction: true);
 }

@@ -19,6 +19,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
+    serviceAuth.initBiometrics();
     super.initState();
   }
 
@@ -27,10 +28,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         body: Center(
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      ElevatedButton(
-        onPressed: () async => serviceAuth.authFast(context),
-        child: const Text("Biometric"),
-      )
+      ElevatedButton(onPressed: () async => {}, child: const Text("Biometric")),
+      ElevatedButton(onPressed: () async => {}, child: const Text("Biometric")),
+      ElevatedButton(onPressed: () async => serviceAuth.authFast(context), child: const Text("Biometric"))
     ])));
   }
 }
