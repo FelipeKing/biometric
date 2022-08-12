@@ -19,7 +19,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    serviceAuth.autheticate(context);
     super.initState();
   }
 
@@ -29,27 +28,9 @@ class _MyHomePageState extends State<MyHomePage> {
         body: Center(
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       ElevatedButton(
-          onPressed: () async {
-            await serviceAuth.autheticate(context);
-          },
-          child: const Text("Biometric"))
+        onPressed: () async => serviceAuth.authFast(context),
+        child: const Text("Biometric"),
+      )
     ])));
   }
 }
-
-// void authenticate() async {
-// final LocalAuthentication auth = LocalAuthentication();
-// List<BiometricType> availableBiometrics = await auth.getAvailableBiometrics();
-//
-// auth.canCheckBiometrics.then((value) => print("suporte biometria: $value"));
-// auth.isDeviceSupported().then((value) => print("suporte PIN/Senha: $value"));
-//
-// setState(() {
-//   var isAuthenticated = auth.authenticate(
-//       localizedReason: 'Please complete the biometrics to proceed.',
-//       options: const AuthenticationOptions(stickyAuth: true));
-//
-//   isAuthenticated
-//       .then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) => const SecurityPage())));
-// });
-// }
